@@ -7,6 +7,7 @@ Begin VB.Form FrmMain
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   15600
+   Icon            =   "FrmMain.frx":0000
    LinkTopic       =   "Form2"
    ScaleHeight     =   10965
    ScaleWidth      =   15600
@@ -150,7 +151,7 @@ Begin VB.Form FrmMain
             _Version        =   393217
             BorderStyle     =   0
             ScrollBars      =   3
-            TextRTF         =   $"FrmMain.frx":0000
+            TextRTF         =   $"FrmMain.frx":1782
          End
       End
       Begin VB.ListBox List1 
@@ -356,7 +357,7 @@ Private Function ExtractHTML(ByVal scbHTML As String) As String
         If pos > 0 Then
             s = Mid(scbHTML, pos + 8, 10)
             EndHTML = CLng(s)
-            ExtractHTML = Trim(Mid(scbHTML, StartHTML + 2, EndHTML - StartHTML - 2))
+            ExtractHTML = Trim(Mid(scbHTML, StartHTML + 2, EndHTML - StartHTML - Len(s) - 4)) ' - 2))
         End If
     End If
 End Function
