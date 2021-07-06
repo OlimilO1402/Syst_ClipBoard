@@ -1,68 +1,123 @@
 VERSION 5.00
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
 Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
-Begin VB.Form Form1 
-   Caption         =   "Form1"
-   ClientHeight    =   11100
+Begin VB.Form FrmMain 
+   Caption         =   "ClipBoard"
+   ClientHeight    =   10965
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   15465
-   Icon            =   "Form1.frx":0000
-   LinkTopic       =   "Form1"
-   ScaleHeight     =   740
-   ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1031
+   ClientWidth     =   15600
+   LinkTopic       =   "Form2"
+   ScaleHeight     =   10965
+   ScaleWidth      =   15600
    StartUpPosition =   3  'Windows-Standard
-   Begin VB.CommandButton Command1 
-      Caption         =   "Command1"
+   Begin VB.CommandButton BtnCopy 
+      Caption         =   "Copy"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
-      Left            =   7440
-      TabIndex        =   11
+      Left            =   3960
+      TabIndex        =   10
       Top             =   120
-      Width           =   2175
+      Width           =   1455
    End
-   Begin VB.PictureBox PnlSplitContainer 
+   Begin VB.TextBox Text2 
+      BeginProperty Font 
+         Name            =   "Courier New"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   0
+      TabIndex        =   9
+      Top             =   600
+      Width           =   13575
+   End
+   Begin VB.CommandButton BtnClear 
+      Caption         =   "Clear"
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   2400
+      TabIndex        =   8
+      Top             =   120
+      Width           =   1455
+   End
+   Begin VB.PictureBox Panel1 
       Appearance      =   0  '2D
       BackColor       =   &H80000005&
+      BorderStyle     =   0  'Kein
       ForeColor       =   &H80000008&
       Height          =   9855
       Left            =   0
-      ScaleHeight     =   9825
-      ScaleWidth      =   13785
-      TabIndex        =   4
+      ScaleHeight     =   9855
+      ScaleWidth      =   13575
+      TabIndex        =   1
       Top             =   1080
-      Width           =   13815
-      Begin VB.ListBox List1 
-         BeginProperty Font 
-            Name            =   "Courier New"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   9660
-         Left            =   0
-         TabIndex        =   5
-         Top             =   0
-         Width           =   5175
-      End
-      Begin VB.PictureBox Panel1 
+      Width           =   13575
+      Begin VB.PictureBox Panel2 
          Appearance      =   0  '2D
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'Kein
          ForeColor       =   &H80000008&
          Height          =   9735
-         Left            =   5280
-         ScaleHeight     =   9705
-         ScaleWidth      =   8385
-         TabIndex        =   6
+         Left            =   4560
+         ScaleHeight     =   9735
+         ScaleWidth      =   8895
+         TabIndex        =   3
          Top             =   0
-         Width           =   8415
+         Width           =   8895
+         Begin VB.TextBox Text1 
+            BeginProperty Font 
+               Name            =   "Courier New"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   2415
+            Left            =   0
+            MultiLine       =   -1  'True
+            ScrollBars      =   3  'Beides
+            TabIndex        =   6
+            Top             =   7200
+            Width           =   8295
+         End
+         Begin VB.PictureBox Picture1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   2415
+            Left            =   0
+            ScaleHeight     =   157
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   549
+            TabIndex        =   5
+            Top             =   0
+            Width           =   8295
+         End
          Begin SHDocVwCtl.WebBrowser WebBrowser1 
             Height          =   2175
             Left            =   0
-            TabIndex        =   10
+            TabIndex        =   4
             Top             =   4920
             Width           =   8295
             ExtentX         =   14631
@@ -84,39 +139,10 @@ Begin VB.Form Form1
             ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
             Location        =   "http:///"
          End
-         Begin VB.PictureBox Picture1 
-            BackColor       =   &H00FFFFFF&
-            Height          =   2415
-            Left            =   0
-            ScaleHeight     =   157
-            ScaleMode       =   3  'Pixel
-            ScaleWidth      =   549
-            TabIndex        =   8
-            Top             =   0
-            Width           =   8295
-         End
-         Begin VB.TextBox Text1 
-            BeginProperty Font 
-               Name            =   "Courier New"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   2415
-            Left            =   0
-            MultiLine       =   -1  'True
-            ScrollBars      =   3  'Beides
-            TabIndex        =   7
-            Top             =   7200
-            Width           =   8295
-         End
          Begin RichTextLib.RichTextBox RichTextBox1 
             Height          =   2295
             Left            =   0
-            TabIndex        =   9
+            TabIndex        =   7
             Top             =   2520
             Width           =   8295
             _ExtentX        =   14631
@@ -124,59 +150,25 @@ Begin VB.Form Form1
             _Version        =   393217
             BorderStyle     =   0
             ScrollBars      =   3
-            TextRTF         =   $"Form1.frx":1782
+            TextRTF         =   $"FrmMain.frx":0000
          End
       End
-   End
-   Begin VB.TextBox Text2 
-      BeginProperty Font 
-         Name            =   "Courier New"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   0
-      TabIndex        =   3
-      Top             =   600
-      Width           =   13575
-   End
-   Begin VB.CommandButton Command2 
-      Caption         =   "Copy"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   3960
-      TabIndex        =   2
-      Top             =   120
-      Width           =   1455
-   End
-   Begin VB.CommandButton BtnClear 
-      Caption         =   "Clear"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Left            =   2400
-      TabIndex        =   1
-      Top             =   120
-      Width           =   1455
+      Begin VB.ListBox List1 
+         BeginProperty Font 
+            Name            =   "Consolas"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   9735
+         Left            =   0
+         TabIndex        =   2
+         Top             =   0
+         Width           =   4455
+      End
    End
    Begin VB.CommandButton BtnGetClipBoardConstants 
       Caption         =   "GetClipBoardConstants"
@@ -196,21 +188,17 @@ Begin VB.Form Form1
       Width           =   2175
    End
 End
-Attribute VB_Name = "Form1"
+Attribute VB_Name = "FrmMain"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Private WithEvents mCB As cClipBoard
-Attribute mCB.VB_VarHelpID = -1
+Private WithEvents ClipBoard1 As cClipBoard
+Attribute ClipBoard1.VB_VarHelpID = -1
+
 Private WithEvents Splitter1 As Splitter
 Attribute Splitter1.VB_VarHelpID = -1
-
-Private Sub Command1_Click()
-    FrmMain.Show
-End Sub
-
 ' für RichTextBox1:
 ' * Komponente: Microsoft Rich Textbox Control 6.0 (SP3)
 '
@@ -219,49 +207,61 @@ End Sub
 ' * Verweis   : Microsoft HTML Object Library
 
 Private Sub Form_Load()
-    'Me.ScaleMode = vbPixels
-    'Panel1.ScaleMode = vbPixels
     Set Splitter1 = New Splitter
-    Splitter1.New_ False, Me, PnlSplitContainer, "Splitter1", List1, Panel1
+    Splitter1.New_ False, Me, Panel1, "Splitter1", List1, Panel2
     With Splitter1
         .LeftTopPos = List1.Width
         .BorderStyle = bsXPStyl
     End With
-    'Splitter1_OnMove Splitter1
-    Set mCB = New cClipBoard
-    mCB.OwnerHwnd = Me.hWnd
-    'mCB.OwnerAsListener
     
+    Set ClipBoard1 = New cClipBoard
+    ClipBoard1.OwnerHwnd = Me.hWnd
     BtnClear_Click
-    'SetClipboardViewer Picture1.hwnd
-'    Clipboard.Clear
-'    Clipboard.GetData
-'    Clipboard.GetFormat
-'    Clipboard.GetText
-'    Clipboard.SetData
-'    Clipboard.SetText
-'
-'    Dim dob As DataObject
-'    dob.Clear
-'    dob.Files
-'    dob.GetData
-'    dob.GetFormat
-'    dob.SetData
 End Sub
 
-'wird zukünftig nicht mehr erforderlich sein das manuell zu machen:
+Private Sub Form_Resize()
+    Dim L As Single, T As Single, W As Single, H As Single
+    T = Panel1.Top
+    W = Me.ScaleWidth
+    H = Me.ScaleHeight - T
+    If W > 0 And H > 0 Then
+        Panel1.Move L, T, W, H
+    End If
+End Sub
+
+Private Sub Panel2_Resize()
+    Dim L As Single, T As Single, W As Single, H As Single
+    W = Panel2.Width
+    H = Panel2.Height / 4
+    If W > 0 And H > 0 Then Picture1.Move L, T, W, H
+    T = T + H
+    If W > 0 And H > 0 Then RichTextBox1.Move L, T, W, H
+    T = T + H
+    If W > 0 And H > 0 Then WebBrowser1.Move L, T, W, H
+    T = T + H
+    If W > 0 And H > 0 Then Text1.Move L, T, W, H
+End Sub
+
+Private Sub ClipBoard1_Changed(sender As cClipBoard)
+    '
+End Sub
+
+Private Sub Splitter1_OnMove(sender As Splitter)
+    '
+End Sub
+
 Private Sub BtnGetClipBoardConstants_Click()
-    mCB.ClearCBFormats
+    ClipBoard1.ClearCBFormats
     List1.Clear
-    Dim cbf() As ClipboardFormat: cbf = mCB.CBFormats
+    Dim cbf() As ClipboardFormat: cbf = ClipBoard1.CBFormats
     Dim i As Long
     For i = 1 To UBound(cbf)
-        List1.AddItem mCB.CBFormat_ToStr(cbf(i))
+        List1.AddItem ClipBoard1.CBFormat_ToStr(cbf(i))
     Next
 End Sub
 
 Private Sub BtnClear_Click()
-    mCB.Clear
+    ClipBoard1.Clear
     List1.Clear
     Text1.Text = ""
     Text2.Text = ""
@@ -270,45 +270,13 @@ Private Sub BtnClear_Click()
     RichTextBox1.TextRTF = ""
     WebBrowser1.Navigate2 "about:blank"
 End Sub
-
-Private Sub Command2_Click()
+Private Sub BtnCopy_Click()
     Dim s As String: s = Text1.Text
     s = ExtractHTML(s)
     'm_CB.StrData(Module1.CF_HTML) = s
-    mCB.Clear
-    mCB.StrData(ClipboardFormat.CF_UNICODETEXT) = s
-End Sub
-
-Private Sub Form_Resize()
-    Dim L As Single, T As Single, W As Single, H As Single
-    T = PnlSplitContainer.Top
-    W = Me.ScaleWidth
-    H = Me.ScaleHeight - T
-    If W > 0 And H > 0 Then
-        PnlSplitContainer.Move L, T, W, H
-    End If
-End Sub
-
-'Private Sub Form_Resize()
-'    Dim brdr As Single: brdr = 8 * Screen.TwipsPerPixelX
-'    Dim l As Single, T As Single, W As Single, H As Single
-'    T = Text2.Top:      W = Me.ScaleWidth:  H = Text2.Height
-'    If W > 0 And H > 0 Then Text2.Move l, T, W, H
-'    T = List1.Top:      W = List1.Width:    H = Me.ScaleHeight - T
-'    If W > 0 And H > 0 Then List1.Move l, T, W, H
-'    l = Picture1.Left:  T = Picture1.Top:   W = Me.ScaleWidth - l
-'    H = (Me.ScaleHeight - T) / 4
-'    If W > 0 And H > 0 Then Picture1.Move l, T, W, H
-'    T = T + H
-'    If W > 0 And H > 0 Then RichTextBox1.Move l, T, W, H
-'    T = T + H
-'    If W > 0 And H > 0 Then WebBrowser1.Move l, T, W, H
-'    T = T + H
-'    If W > 0 And H > 0 Then Text1.Move l, T, W, H
-'End Sub
-
-Private Sub Splitter1_OnMove(sender As Splitter)
-    '
+    ClipBoard1.Clear
+    ClipBoard1.StrData(ClipboardFormat.CF_UNICODETEXT) = s
+    WebBrowser1.Document.body.innerHTML = s
 End Sub
 
 Private Sub List1_Click()
@@ -320,9 +288,8 @@ Private Sub List1_DblClick()
     If List1.ListIndex < 0 Then Exit Sub
     Dim cf As ClipboardFormat:   cf = CLng(Split(List1.List(List1.ListIndex), ", &H")(0))
     Select Case cf
-    'Case CF_BITMAP
     Case CF_ENHMETAFILE, CF_METAFILEPICT
-        Dim hWMF As Long: hWMF = mCB.ObjHandle(cf)
+        Dim hWMF As Long: hWMF = ClipBoard1.ObjHandle(cf)
         If cf = CF_METAFILEPICT Then
             Mewmf.PlayMetaFile Picture1.hdc, hWMF
         ElseIf cf = CF_ENHMETAFILE Then
@@ -338,26 +305,26 @@ Private Sub List1_DblClick()
         'Dim hPic As Long: hPic = m_CB.ObjHandle(CF_PICTURE)
         'Picture1.Picture.Handle = hPic
         'Set Picture1.Picture = m_CB.ObjData(cf)
-        Set Picture1.Picture = mCB.ObjData(cf)
+        Set Picture1.Picture = ClipBoard1.ObjData(cf)
     Case Else
-        Dim s  As String:  s = mCB.StrData(cf)
+        Dim s  As String:  s = ClipBoard1.StrData(cf)
         Dim doc As HTMLDocument
         Dim bod As IHTMLElement
         If cf = CF_XRTF Or _
            cf = CF_WRTF Or _
-           cf = mCB.GetCBFormatForName("Rich Text") Or _
-           cf = mCB.GetCBFormatForName("RTF") Then
+           cf = ClipBoard1.GetCBFormatForName("Rich Text") Or _
+           cf = ClipBoard1.GetCBFormatForName("RTF") Then
             RichTextBox1.TextRTF = s
         Else
             Set doc = WebBrowser1.Document
             Set bod = doc.body
             If cf = ClipboardFormat.CF_HTML_xls1 Or _
                cf = ClipboardFormat.CF_HTML_xls2 Or _
-               cf = mCB.GetCBFormatForName("HTML") Then
+               cf = ClipBoard1.GetCBFormatForName("HTML") Then
                 's = ExtractHTML(s)
                 bod.innerHTML = "html:" & vbCrLf & ExtractHTML(s)
             ElseIf cf = CF_XML Or _
-                   cf = mCB.GetCBFormatForName("XML") Then
+                   cf = ClipBoard1.GetCBFormatForName("XML") Then
                 bod.innerHTML = "xml:" & vbCrLf & ExtractHTML(s)
             End If
         End If
@@ -504,3 +471,4 @@ End Function
 '</body>
 '
 '</html>
+
