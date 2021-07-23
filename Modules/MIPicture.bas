@@ -112,7 +112,7 @@ Private Function GetGUID_IDispatch() As GUID
     Dim s As String: s = Space(80)
     Dim hr As Long
     hr = StringFromGUID2(GetGUID_IDispatch, s, 80)
-    Debug.Print StrConv(Trim(s), vbFromUnicode)
+    'Debug.Print StrConv(Trim(s), vbFromUnicode)
 End Function
 Private Function GetPicDescBmp(ByVal hPic As Long) As PictureDescription
     Const PICTYPE_BITMAP      As Long = 1

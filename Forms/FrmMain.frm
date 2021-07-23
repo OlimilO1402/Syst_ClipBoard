@@ -12,6 +12,14 @@ Begin VB.Form FrmMain
    ScaleHeight     =   10965
    ScaleWidth      =   15600
    StartUpPosition =   3  'Windows-Standard
+   Begin VB.CommandButton Command1 
+      Caption         =   "Command1"
+      Height          =   375
+      Left            =   5880
+      TabIndex        =   11
+      Top             =   120
+      Width           =   1695
+   End
    Begin VB.CommandButton BtnCopy 
       Caption         =   "Copy"
       BeginProperty Font 
@@ -206,6 +214,13 @@ Attribute Splitter1.VB_VarHelpID = -1
 ' für WebBrowser1:
 ' * Komponente: Microsoft Internet Controls
 ' * Verweis   : Microsoft HTML Object Library
+Private m_CBHistory  As CBHistory
+Private m_CBElements As CBElements
+
+'Private Sub Command1_Click()
+'    Set m_CBElements = m_CBHistory.Add(ClipBoard1.CBElements)
+'    MsgBox m_CBElements.Count
+'End Sub
 
 Private Sub Form_Load()
     Set Splitter1 = New Splitter
@@ -218,6 +233,7 @@ Private Sub Form_Load()
     Set ClipBoard1 = New cClipBoard
     ClipBoard1.OwnerHwnd = Me.hWnd
     BtnClear_Click
+    Set m_CBHistory = New CBHistory
 End Sub
 
 Private Sub Form_Resize()
@@ -253,16 +269,25 @@ End Sub
 
 Private Sub BtnGetClipBoardConstants_Click()
     ClipBoard1.ClearCBFormats
+    Set m_CBElements = m_CBHistory.Add(ClipBoard1.CBElements)
+    'MsgBox m_CBElements.Count
     List1.Clear
-    Dim cbf() As ClipboardFormat: cbf = ClipBoard1.CBFormats
-    Dim i As Long
-    For i = 1 To UBound(cbf)
-        List1.AddItem ClipBoard1.CBFormat_ToStr(cbf(i))
+    Dim cbe As CBElement
+    For Each cbe In m_CBElements.List
+        List1.AddItem cbe.ToStr
     Next
+
+'    ClipBoard1.ClearCBFormats
+'    List1.Clear
+'    Dim cbf() As ClipboardFormat: cbf = ClipBoard1.CBFormats
+'    Dim i As Long
+'    For i = 1 To UBound(cbf)
+'        List1.AddItem ClipBoard1.CBFormat_ToStr(cbf(i))
+'    Next
 End Sub
 
 Private Sub BtnClear_Click()
-    ClipBoard1.Clear
+    'ClipBoard1.Clear
     List1.Clear
     Text1.Text = ""
     Text2.Text = ""
@@ -272,14 +297,38 @@ Private Sub BtnClear_Click()
     WebBrowser1.Navigate2 "about:blank"
 End Sub
 Private Sub BtnCopy_Click()
-    Dim s As String: s = Text1.Text
+    'es soll der in der Liste ausgewählte Eintrag allein wieder in die zwischenablage kopiert werden
+    'also zuerst aus der ZwAbl lesen dann allein wieder reinkopieren
+    'hmm eigentlich bräucht es eine Klasse ClipBoardEntry oder ClipBoardElement
+    'das hat nur eine Eigenschaft ClipBoardFormat und ein ByteArray das sämtliche Daten beinhaltet
+    
+    Dim s As String: s = Text2.Text
+    Dim cf As Long: cf = CBFormat_Parse(s)
+    If cf = 0 Then
+        MsgBox "Please select entry from list"
+        Exit Sub
+    End If
+    's = ClipBoard1.StrData(ClipboardFormat.CF_HTML_xls0)
+    's = Trim(s)
+    'If Len(s) = 0 Then
+    s = ClipBoard1.StrData(cf)
+    'End If
     s = ExtractHTML(s)
+    'Debug.Print s
     'm_CB.StrData(Module1.CF_HTML) = s
     ClipBoard1.Clear
-    ClipBoard1.StrData(ClipboardFormat.CF_UNICODETEXT) = s
-    WebBrowser1.Document.body.innerHTML = s
+    'ClipBoard1.StrData(cf) = s
+    ClipBoard1.StrData(CF_UNICODETEXT) = s
+    'WebBrowser1.Document.body.innerHTML = s
 End Sub
 
+Private Function CBFormat_Parse(s As String) As ClipboardFormat
+    If Len(s) = 0 Then Exit Function
+    If InStr(1, s, ",") = 0 Then Exit Function
+    Dim sa() As String: sa = Split(s, ",")
+    Dim L As Long: L = CLng(sa(0))
+    CBFormat_Parse = L
+End Function
 Private Sub List1_Click()
     If List1.ListIndex < 0 Then Exit Sub
     Text2.Text = List1.List(List1.ListIndex)
@@ -327,6 +376,14 @@ Private Sub List1_DblClick()
             ElseIf cf = CF_XML Or _
                    cf = ClipBoard1.GetCBFormatForName("XML") Then
                 bod.innerHTML = "xml:" & vbCrLf & ExtractHTML(s)
+            Else
+                'for unknown binary-data we need a Hex-viewer!!
+                'OK wir brauchen eine Klasse ClipBoardContent die speichert alle ClipBoardElement Objekte
+                'die erhält als Property die Clipboard-Konstante
+                'und speichert den kompletten Inhalt eines Elements in einem Bytearray
+                'anhand der konstante kann die Klasse selbständig adäquat umwandeln,
+                'also im Grunde so ähnlich wie der Variant
+                'entweder in Text, rtf, html, bitmap, Riff, wave, binär oder sonstwas
             End If
         End If
     End Select
@@ -362,6 +419,8 @@ Private Function ExtractHTML(ByVal scbHTML As String) As String
     End If
 End Function
 
+'
+'Excel 2010:
 'Version:1.0
 'StartHTML:0000000196
 'EndHTML:0000002905
@@ -465,6 +524,89 @@ End Function
 '  class="font5">p</font><font class="font0"> - </font><font class="font5">a</font><font
 '  class="font0"> * a</font><font class="font6"><sub>i,k</sub></font><font
 '  class="font7"><sup>2</sup></font></td>
+'<!--EndFragment-->
+' </tr>
+'</table>
+'
+'</body>
+'
+'</html>
+'
+'
+'
+'
+'
+'
+'
+'
+'Excel 2016:
+'Version:1.0
+'StartHTML:0000000105
+'EndHTML:0000001790
+'StartFragment:0000001659
+'EndFragment:0000001730
+'
+'
+'<html xmlns:o="urn:schemas-microsoft-com:office:office"
+'xmlns: X = "urn:schemas-microsoft-com:office:excel"
+'xmlns="http://www.w3.org/TR/REC-html40">
+'
+'
+'<head>
+'<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+'<meta name=ProgId content=Excel.Sheet>
+'<meta name=Generator content="Microsoft Excel 15">
+'<link id=Main-File rel=Main-File
+'href="file:///C:/Users/olimi/AppData/Local/Temp/msohtmlclip1/01/clip.htm">
+'<link rel=File-List
+'href="file:///C:/Users/olimi/AppData/Local/Temp/msohtmlclip1/01/clip_filelist.xml">
+'<style>
+'<!--table
+'    {mso-displayed-decimal-separator:"\,";
+'    mso-displayed-thousand-separator:"\.";}
+'@page
+'    {margin:.79in .7in .79in .7in;
+'    mso-header-margin:.3in;
+'    mso-footer-margin:.3in;}
+'tr
+'    {mso-height-source:auto;}
+'col
+'    {mso-width-source:auto;}
+'br
+'    {mso-data-placement:same-cell;}
+'td
+'    {padding-top:1px;
+'    padding-right:1px;
+'    padding-left:1px;
+'    mso-ignore:padding;
+'    color:black;
+'    font-size:11.0pt;
+'    font-weight:400;
+'    font-style:normal;
+'    text-decoration:none;
+'    font-family:Calibri, sans-serif;
+'    mso-font-charset:0;
+'    mso-number-format:General;
+'    text-align:general;
+'    vertical-align:bottom;
+'    border:none;
+'    mso-background-source:auto;
+'    mso-pattern:auto;
+'    mso-protection:locked visible;
+'    white-space:nowrap;
+'    mso-rotate:0;}
+'-->
+'</style>
+'</head>
+'
+'<body link="#0563C1" vlink="#954F72">
+'
+'<table border=0 cellpadding=0 cellspacing=0 width=80 style='border-collapse:
+' collapse;width:60pt'>
+' <col width=80 style='width:60pt'>
+' <tr height=20 style='height:15.0pt'>
+'<!--StartFragment-->
+'  <td height=20 width=80 style='height:15.0pt;width:60pt'>test</td>
 '<!--EndFragment-->
 ' </tr>
 '</table>

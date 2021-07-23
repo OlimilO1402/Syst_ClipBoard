@@ -37,7 +37,7 @@ Try: On Error GoTo Catch
     
 Catch:
     If Err Then
-        Debug.Print "Error in SubclassProc: ", Err.Number, Err.Description
+        'Debug.Print "Error in SubclassProc: ", Err.Number, Err.Description
     End If
 Finally:
     On Error Resume Next
@@ -53,7 +53,7 @@ Try: On Error GoTo Catch
     bRet = SetWindowSubclass(hWnd, AddressOf MSubclassing.SubclassProc, eSubclassID, ObjPtr(oClient)) <> 0
 Catch:
     If Err Then
-        Debug.Print "Error in SubclassWindow: ", Err.Number, Err.Description
+        'Debug.Print "Error in SubclassWindow: ", Err.Number, Err.Description
         bRet = False
     End If
 Finally:
@@ -66,7 +66,7 @@ Try: On Error GoTo Catch
     bRet = RemoveWindowSubclass(hWnd, AddressOf MSubclassing.SubclassProc, eSubclassID) <> 0
 Catch:
     If Err Then
-        Debug.Print "Error in UnSubclassWindow: ", Err.Number, Err.Description
+        'Debug.Print "Error in UnSubclassWindow: ", Err.Number, Err.Description
         bRet = False
     End If
 Finally:
