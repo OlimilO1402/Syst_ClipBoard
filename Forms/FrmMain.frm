@@ -158,6 +158,7 @@ Begin VB.Form FrmMain
             _ExtentY        =   4048
             _Version        =   393217
             BorderStyle     =   0
+            Enabled         =   -1  'True
             ScrollBars      =   3
             TextRTF         =   $"FrmMain.frx":1782
          End
