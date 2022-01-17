@@ -12,13 +12,13 @@ Begin VB.Form FrmMain
    ScaleHeight     =   10965
    ScaleWidth      =   15600
    StartUpPosition =   3  'Windows-Standard
-   Begin VB.CommandButton Command1 
-      Caption         =   "Command1"
+   Begin VB.CommandButton BtnInfo 
+      Caption         =   "Info"
       Height          =   375
       Left            =   5880
       TabIndex        =   11
       Top             =   120
-      Width           =   1695
+      Width           =   1095
    End
    Begin VB.CommandButton BtnCopy 
       Caption         =   "Copy"
@@ -158,7 +158,6 @@ Begin VB.Form FrmMain
             _ExtentY        =   4048
             _Version        =   393217
             BorderStyle     =   0
-            Enabled         =   -1  'True
             ScrollBars      =   3
             TextRTF         =   $"FrmMain.frx":1782
          End
@@ -217,6 +216,10 @@ Attribute Splitter1.VB_VarHelpID = -1
 ' * Verweis   : Microsoft HTML Object Library
 Private m_CBHistory  As CBHistory
 Private m_CBElements As CBElements
+
+Private Sub BtnInfo_Click()
+    MsgBox App.CompanyName & " " & App.EXEName & " v" & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & App.FileDescription
+End Sub
 
 'Private Sub Command1_Click()
 '    Set m_CBElements = m_CBHistory.Add(ClipBoard1.CBElements)
@@ -342,12 +345,12 @@ Private Sub List1_DblClick()
     Case CF_ENHMETAFILE, CF_METAFILEPICT
         Dim hWMF As Long: hWMF = ClipBoard1.ObjHandle(cf)
         If cf = CF_METAFILEPICT Then
-            Mewmf.PlayMetaFile Picture1.hdc, hWMF
+            Mewmf.PlayMetaFile Picture1.hDC, hWMF
         ElseIf cf = CF_ENHMETAFILE Then
             Dim H As ENHMETAHEADER
             GetEnhMetaFileHeader hWMF, LenB(H), H
             Dim r As RECT: r.Left = 0: r.Top = 0: r.Right = 200: r.Bottom = 200
-            Mewmf.PlayEnhMetaFile Picture1.hdc, hWMF, r
+            Mewmf.PlayEnhMetaFile Picture1.hDC, hWMF, r
         End If
         'MsgBox Err.LastDllError
         'MsgBox Module1.ErrMessage(Err.LastDllError)
