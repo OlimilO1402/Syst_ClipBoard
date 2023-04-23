@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
 Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
-Begin VB.Form FrmMain 
+Begin VB.Form FMain 
    Caption         =   "ClipBoard"
    ClientHeight    =   10965
    ClientLeft      =   120
@@ -158,6 +158,7 @@ Begin VB.Form FrmMain
             _ExtentY        =   4048
             _Version        =   393217
             BorderStyle     =   0
+            Enabled         =   -1  'True
             ScrollBars      =   3
             TextRTF         =   $"FrmMain.frx":1782
          End
@@ -197,7 +198,7 @@ Begin VB.Form FrmMain
       Width           =   2175
    End
 End
-Attribute VB_Name = "FrmMain"
+Attribute VB_Name = "FMain"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -215,7 +216,7 @@ Attribute Splitter1.VB_VarHelpID = -1
 ' * Komponente: Microsoft Internet Controls
 ' * Verweis   : Microsoft HTML Object Library
 Private m_CBHistory  As CBHistory
-Private m_CBElements As CBElements
+Private m_CBElements As cbElements
 
 Private Sub BtnInfo_Click()
     MsgBox App.CompanyName & " " & App.EXEName & " v" & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & App.FileDescription
@@ -227,6 +228,7 @@ End Sub
 'End Sub
 
 Private Sub Form_Load()
+    Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
     Set Splitter1 = New Splitter
     Splitter1.New_ False, Me, Panel1, "Splitter1", List1, Panel2
     With Splitter1
@@ -263,17 +265,17 @@ Private Sub Panel2_Resize()
     If W > 0 And H > 0 Then Text1.Move L, T, W, H
 End Sub
 
-Private Sub ClipBoard1_Changed(sender As cClipBoard)
+Private Sub ClipBoard1_Changed(Sender As cClipBoard)
     '
 End Sub
 
-Private Sub Splitter1_OnMove(sender As Splitter)
+Private Sub Splitter1_OnMove(Sender As Splitter)
     '
 End Sub
 
 Private Sub BtnGetClipBoardConstants_Click()
     ClipBoard1.ClearCBFormats
-    Set m_CBElements = m_CBHistory.Add(ClipBoard1.CBElements)
+    Set m_CBElements = m_CBHistory.Add(ClipBoard1.cbElements)
     'MsgBox m_CBElements.Count
     List1.Clear
     Dim cbe As CBElement
@@ -393,9 +395,11 @@ Private Sub List1_DblClick()
     End Select
     Text1.Text = s
 End Sub
+
 Function Hex2(s As String) As String
     Hex2 = IIf(Len(s) = 1, "0", "") & s
 End Function
+
 Function Hex4(s As String) As String
     Hex4 = s: If Len(s) < 4 Then Hex4 = String(4 - Len(s), "0") & Hex4
 End Function

@@ -101,6 +101,7 @@ Public Function GetIPictureFromPtr(pMem As Long) As IPictureDisp
     Dim hr      As Long:                    hr = OleCreatePictureIndirect(PicDesc, IDispat, True, IPic)
     Set GetIPictureFromPtr = IPic
 End Function
+
 Private Function GetGUID_IDispatch() As GUID
     With GetGUID_IDispatch
         .Data1 = &H7BF80980
@@ -114,6 +115,7 @@ Private Function GetGUID_IDispatch() As GUID
     hr = StringFromGUID2(GetGUID_IDispatch, s, 80)
     'Debug.Print StrConv(Trim(s), vbFromUnicode)
 End Function
+
 Private Function GetPicDescBmp(ByVal hPic As Long) As PictureDescription
     Const PICTYPE_BITMAP      As Long = 1
     With GetPicDescBmp
@@ -123,6 +125,7 @@ Private Function GetPicDescBmp(ByVal hPic As Long) As PictureDescription
         .hPal = 0
     End With
 End Function
+
 Private Function GetPicDescEwmf(ByVal hPic As Long) As PictureDescription
     Const PICTYPE_ENHMETAFILE As Long = 4
     With GetPicDescEwmf

@@ -18,7 +18,7 @@ Option Explicit
 'https://msdn.microsoft.com/de-de/library/windows/desktop/ms649016(v=vs.85).aspx#_win32_Removing_a_Window_from_the_Clipboard_Viewer_Chain
 'http://www.vbarchiv.net/workshop/workshop_25-die-zwischenablage-im-griff.html
 
-#If vba7 Then
+#If VBA7 Then
 Private Declare PtrSafe Function OpenClipboard Lib "user32" (ByVal hWnd As LongPtr) As Long
 Private Declare PtrSafe Function EnumClipboardFormats Lib "user32" (ByVal wFormat As Long) As Long
 Private Declare PtrSafe Function CountClipboardFormats Lib "user32" () As Long
@@ -90,14 +90,11 @@ Private Const SRCCOPY            As Long = &HCC0020
 'functions are still used with Dynamic Data Exchange (DDE), the clipboard functions, and OLE data objects.
 
 'Private Declare Function SelectObject Lib "gdi32" (ByVal hdc As Long, ByVal hObject As Long) As Long
-#If vba7 Then
-    Private m_hWnd        As LongPtr
-#Else
-    Private m_hWnd        As Long
-#End If
+
+Private m_hWnd        As LongPtr
 Private m_CBFormats() As Long
-Private m_hWndNextVw  As Long
-Public Event Changed(sender As cClipBoard)
+Private m_hWndNextVw  As LongPtr
+Public Event Changed(Sender As cClipBoard)
 
 Private Sub Class_Initialize()
     ReDim m_CBFormats(0)
@@ -109,17 +106,19 @@ Public Sub Clear()
     CloseClipboard
     ReDim m_CBFormats(0)
 End Sub
+
 Public Property Get IsClear() As Boolean
     IsClear = UBound(m_CBFormats) = 0
 End Property
+
 Public Sub ClearCBFormats()
     ReDim m_CBFormats(0)
 End Sub
 
-Public Property Get OwnerHwnd() As Long
+Public Property Get OwnerHwnd() As LongPtr
     OwnerHwnd = m_hWnd
 End Property
-Public Property Let OwnerHwnd(ByVal Value As Long)
+Public Property Let OwnerHwnd(ByVal Value As LongPtr)
     m_hWnd = Value
 End Property
 
@@ -201,9 +200,9 @@ Public Property Get ObjData(ByVal aCBFormat As Long) As Object
     End If
 End Property
 
-Public Property Get ObjHandle(ByVal aCBFormat As Long) As Long 'Object
+Public Property Get ObjHandle(ByVal aCBFormat As Long) As LongPtr 'Object
     If OpenClipboard(m_hWnd) Then
-        Dim pMem As Long:         pMem = GetClipboardData(aCBFormat)
+        Dim pMem As LongPtr:       pMem = GetClipboardData(aCBFormat)
         If pMem Then
             ObjHandle = pMem
 '            Dim bLen As Long:     bLen = GlobalSize(pMem) '+ 2
@@ -230,6 +229,7 @@ Public Property Get ObjHandle(ByVal aCBFormat As Long) As Long 'Object
         CloseClipboard
     End If
 End Property
+
 Public Property Get StrData(ByVal aCBFormat As Long) As String
     If OpenClipboard(m_hWnd) Then
         Dim pMem As Long:         pMem = GetClipboardData(aCBFormat)
@@ -257,9 +257,11 @@ Public Property Get StrData(ByVal aCBFormat As Long) As String
         CloseClipboard
     End If
 End Property
+
 Private Function Hex4(L As Long) As String
     Hex4 = Hex(L): If Len(Hex4) < 4 Then Hex4 = String$(4 - Len(Hex4), "0") & Hex4
 End Function
+
 Private Function LcidToStr(ByVal aLCID As Long) As String
     Dim s As String: s = String$(6, vbNullChar)
     If LcidToRfc1766A(aLCID, s, 6) = 0 Then
@@ -272,6 +274,7 @@ Private Function LcidToStr(ByVal aLCID As Long) As String
     End If
     LcidToStr = s
 End Function
+
 Public Property Let StrData(ByVal aCBFormat As Long, Value As String)
     If OpenClipboard(m_hWnd) Then
         Dim blen As Long:         blen = LenB(Value) + 2
@@ -290,10 +293,10 @@ Public Property Let StrData(ByVal aCBFormat As Long, Value As String)
     End If
 End Property
 
-Public Property Get CBElements() As CBElements
+Public Property Get cbElements() As cbElements
     If UBound(m_CBFormats) < 1 Then ReadClipboardFormats
 
-    Set CBElements = New CBElements
+    Set cbElements = New cbElements
     Dim aCBFormat As ClipboardFormat
     If OpenClipboard(m_hWnd) Then
         Dim i As Long
@@ -308,7 +311,7 @@ Public Property Get CBElements() As CBElements
                         ReDim barr(blen) As Byte
                         RtlMoveMemory VarPtr(barr(0)), pLok, blen
                         GlobalUnlock pMem
-                        CBElements.Add MNew.CBElement(aCBFormat, barr)
+                        cbElements.Add MNew.CBElement(aCBFormat, barr)
                     End If
                 End If
             End If
@@ -316,6 +319,7 @@ Public Property Get CBElements() As CBElements
     End If
     CloseClipboard
 End Property
+
 'eine Excel-Zelle in die Zwischenablage kopiert liefert folgende Formate:
 'lngFormat = 49161
 'lngFormat = 14

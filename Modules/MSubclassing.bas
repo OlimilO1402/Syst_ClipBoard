@@ -8,17 +8,12 @@ Public Enum EnumSubclassID
     '...
 End Enum
 
-Private Declare Function SetWindowSubclass Lib _
-    "comctl32" (ByVal hWnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long, ByVal dwRefData As Long) As Long
-Public Declare Function DefSubclassProc Lib _
-    "comctl32" (ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
-Private Declare Function RemoveWindowSubclass Lib _
-    "comctl32" (ByVal hWnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long) As Long
+Private Declare Function SetWindowSubclass Lib "comctl32" (ByVal hWnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long, ByVal dwRefData As Long) As Long
+Public Declare Function DefSubclassProc Lib "comctl32" (ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Private Declare Function RemoveWindowSubclass Lib "comctl32" (ByVal hWnd As Long, ByVal pfnSubclass As Long, ByVal uIdSubclass As Long) As Long
 
-Private Declare Sub RtlZeroMemory Lib _
-    "kernel32" (ByVal pDest As Long, ByVal sz As Long)
-Public Declare Sub RtlMoveMemory Lib _
-    "kernel32" (ByVal pDest As Long, ByVal pSrc As Long, ByVal blen As Long)
+Private Declare Sub RtlZeroMemory Lib "kernel32" (ByVal pDest As Long, ByVal sz As Long)
+Public Declare Sub RtlMoveMemory Lib "kernel32" (ByVal pDest As Long, ByVal pSrc As Long, ByVal blen As Long)
 
 
 Public Function SubclassProc(ByVal hWnd As Long, ByVal uMsg As Long, ByVal wParam As Long, ByVal lParam As Long, ByVal uIdSubclass As Long, ByVal dwRefData As Long) As Long
