@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
-Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "RICHTX32.OCX"
+Object = "{3B7C8863-D78F-101B-B9B5-04021C009402}#1.2#0"; "richtx32.ocx"
 Begin VB.Form FMain 
    Caption         =   "ClipBoard"
    ClientHeight    =   10965
@@ -16,7 +16,7 @@ Begin VB.Form FMain
       Caption         =   "Info"
       Height          =   375
       Left            =   5880
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   120
       Width           =   1095
    End
@@ -33,7 +33,7 @@ Begin VB.Form FMain
       EndProperty
       Height          =   375
       Left            =   3960
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   120
       Width           =   1455
    End
@@ -49,7 +49,7 @@ Begin VB.Form FMain
       EndProperty
       Height          =   375
       Left            =   0
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   600
       Width           =   13575
    End
@@ -66,7 +66,7 @@ Begin VB.Form FMain
       EndProperty
       Height          =   375
       Left            =   2400
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   120
       Width           =   1455
    End
@@ -94,42 +94,13 @@ Begin VB.Form FMain
          TabIndex        =   3
          Top             =   0
          Width           =   8895
-         Begin VB.TextBox Text1 
-            BeginProperty Font 
-               Name            =   "Courier New"
-               Size            =   9.75
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   2415
-            Left            =   0
-            MultiLine       =   -1  'True
-            ScrollBars      =   3  'Beides
-            TabIndex        =   6
-            Top             =   7200
-            Width           =   8295
-         End
-         Begin VB.PictureBox Picture1 
-            BackColor       =   &H00FFFFFF&
-            Height          =   2415
-            Left            =   0
-            ScaleHeight     =   157
-            ScaleMode       =   3  'Pixel
-            ScaleWidth      =   549
-            TabIndex        =   5
-            Top             =   0
-            Width           =   8295
-         End
          Begin SHDocVwCtl.WebBrowser WebBrowser1 
             Height          =   2175
             Left            =   0
-            TabIndex        =   4
+            TabIndex        =   11
             Top             =   4920
-            Width           =   8295
-            ExtentX         =   14631
+            Width           =   8175
+            ExtentX         =   14420
             ExtentY         =   3836
             ViewMode        =   0
             Offline         =   0
@@ -148,10 +119,39 @@ Begin VB.Form FMain
             ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
             Location        =   "http:///"
          End
+         Begin VB.TextBox Text1 
+            BeginProperty Font 
+               Name            =   "Courier New"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   2415
+            Left            =   0
+            MultiLine       =   -1  'True
+            ScrollBars      =   3  'Beides
+            TabIndex        =   5
+            Top             =   7200
+            Width           =   8295
+         End
+         Begin VB.PictureBox Picture1 
+            BackColor       =   &H00FFFFFF&
+            Height          =   2415
+            Left            =   0
+            ScaleHeight     =   157
+            ScaleMode       =   3  'Pixel
+            ScaleWidth      =   549
+            TabIndex        =   4
+            Top             =   0
+            Width           =   8295
+         End
          Begin RichTextLib.RichTextBox RichTextBox1 
             Height          =   2295
             Left            =   0
-            TabIndex        =   7
+            TabIndex        =   6
             Top             =   2520
             Width           =   8295
             _ExtentX        =   14631
@@ -371,8 +371,9 @@ Private Sub List1_DblClick()
            cf = ClipBoard1.GetCBFormatForName("Rich Text") Or _
            cf = ClipBoard1.GetCBFormatForName("RTF") Then
             RichTextBox1.TextRTF = s
+            'RichTextBox1.TextRTF
         Else
-            Set doc = WebBrowser1.Document
+            Set doc = WebBrowser1.document
             Set bod = doc.body
             If cf = ClipboardFormat.CF_HTML_xls1 Or _
                cf = ClipboardFormat.CF_HTML_xls2 Or _
@@ -390,6 +391,12 @@ Private Sub List1_DblClick()
                 'anhand der konstante kann die Klasse selbständig adäquat umwandeln,
                 'also im Grunde so ähnlich wie der Variant
                 'entweder in Text, rtf, html, bitmap, Riff, wave, binär oder sonstwas
+                Dim ba() As Byte: ba = s
+                s = ""
+                Dim i As Long
+                For i = 0 To UBound(ba)
+                    s = s & Hex2b(ba(i)) & " "
+                Next
             End If
         End If
     End Select
@@ -398,6 +405,11 @@ End Sub
 
 Function Hex2(s As String) As String
     Hex2 = IIf(Len(s) = 1, "0", "") & s
+End Function
+
+Function Hex2b(ByVal b As Byte) As String
+    Hex2b = Hex(b)
+    Hex2b = IIf(Len(Hex2b) = 1, "0", "") & Hex2b
 End Function
 
 Function Hex4(s As String) As String
